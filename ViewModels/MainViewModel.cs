@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MyApp.Services;
 
 namespace MyApp.ViewModels;
 
@@ -14,14 +9,21 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private object _currentView;
 
-    public MineViewModel MineVM { get; } = new();
-    public HarvestLocationViewModel ForestVM { get; } = new("🪓 ЛЕС", "Дерево", "Вековое Дерево");
-    public HarvestLocationViewModel FieldVM { get; } = new("🌾 ПОЛЕ", "Пшеница", "Золотая Пшеница");
-    public MonstersViewModel MonstersVM { get; } = new();
+    public InventoryService Inventory { get; } = new();
+
+    public MineViewModel MineVM { get; }
+    public HarvestLocationViewModel ForestVM { get; }
+    public HarvestLocationViewModel FieldVM { get; }
+    public MonstersViewModel MonstersVM { get; }
 
     public MainViewModel()
     {
-        CurrentView = MineVM; // По умолчанию открываем Шахту
+        MineVM = new MineViewModel(Inventory);
+        ForestVM = new HarvestLocationViewModel("🪓 ЛЕС", "Дерево", "Вековое Дерево", Inventory);
+        FieldVM = new HarvestLocationViewModel("🌾 ПОЛЕ", "Пшеница", "Золотая Пшеница", Inventory);
+        MonstersVM = new MonstersViewModel(Inventory);
+
+        CurrentView = MineVM;
     }
 
     [RelayCommand]

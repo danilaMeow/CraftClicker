@@ -2,12 +2,16 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MyApp.Helpers;
 using MyApp.Models;
+using MyApp.Services;
 
 namespace MyApp.ViewModels;
 
 public partial class MineViewModel : ObservableObject
 {
+    private readonly InventoryService _inventory;
+
     [ObservableProperty]
     private ObservableCollection<ResourceCellModel> _cells = new();
 
@@ -22,8 +26,9 @@ public partial class MineViewModel : ObservableObject
 
     private readonly Random _random = new();
 
-    public MineViewModel()
+    public MineViewModel(InventoryService inventory)
     {
+        _inventory = inventory;
         GenerateGrid();
     }
 
@@ -32,18 +37,16 @@ public partial class MineViewModel : ObservableObject
     {
         if (cell == null || cell.IsMined) return;
 
-        int pickaxeDamage = 1;
-        cell.Hit(pickaxeDamage);
+        cell.Hit(1);
 
         if (cell.IsMined)
         {
             MinedCount++;
-            CheckResetCondition();
+            var (category, icon) = ResourceHelper.GetResourceDetails(cell.Name);
+            _inventory.AddItem(cell.Name, 1, category, icon);
 
-            if (_minedCount >= 9)
-            {
-                ResetGrid();
-            }
+            CheckResetCondition();
+            if (_minedCount >= 9) ResetGrid();
         }
     }
 
@@ -63,13 +66,19 @@ public partial class MineViewModel : ObservableObject
 
         for (int i = 0; i < 9; i++)
         {
-            bool isGold = _random.Next(100) < 15;
+            int roll = _random.Next(100);
+            string name = roll < 15 ? "Золотая Жила" : (roll < 50 ? "Железо" : "Камень");
+
+            var config = ResourceHelper.GetConfig(name);
+            int hp = config?.DefaultDurability ?? 4;
+            bool isRare = config?.IsRare ?? false;
+
             _cells.Add(new ResourceCellModel
             {
-                Name = isGold ? "Золотая жила" : "Каменная жила",
-                MaxDurability = isGold ? 10 : 5,
-                CurrentDurability = isGold ? 10 : 5,
-                IsGoldenNode = isGold,
+                Name = name,
+                MaxDurability = hp,
+                CurrentDurability = hp,
+                IsGoldenNode = isRare,
                 IsMined = false
             });
         }

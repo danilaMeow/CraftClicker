@@ -2,12 +2,16 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MyApp.Helpers;
 using MyApp.Models;
+using MyApp.Services;
 
 namespace MyApp.ViewModels;
 
 public partial class MonstersViewModel : ObservableObject
 {
+    private readonly InventoryService _inventory;
+
     [ObservableProperty]
     private ObservableCollection<MonsterCellModel> _monsters = new();
 
@@ -23,8 +27,9 @@ public partial class MonstersViewModel : ObservableObject
     private readonly Random _random = new();
     private readonly string[] _monsterNames = { "Слайм", "Гоблин", "Скелет", "Орк" };
 
-    public MonstersViewModel()
+    public MonstersViewModel(InventoryService inventory)
     {
+        _inventory = inventory;
         GenerateGrid();
     }
 
@@ -33,14 +38,15 @@ public partial class MonstersViewModel : ObservableObject
     {
         if (monster == null || monster.IsDead) return;
 
-        int swordDamage = 2; // Урон меча
-        monster.Hit(swordDamage);
+        monster.Hit(2);
 
         if (monster.IsDead)
         {
             KilledCount++;
-            CheckResetCondition();
+            var (category, icon) = ResourceHelper.GetResourceDetails(monster.Name);
+            _inventory.AddItem(monster.Name, 1, category, icon);
 
+            CheckResetCondition();
             if (_killedCount >= 5) ResetGrid();
         }
     }
@@ -62,7 +68,9 @@ public partial class MonstersViewModel : ObservableObject
         for (int i = 0; i < 5; i++)
         {
             string name = _monsterNames[_random.Next(_monsterNames.Length)];
-            int hp = _random.Next(8, 16);
+            var config = ResourceHelper.GetConfig(name);
+            int hp = config?.DefaultDurability ?? 10;
+
             _monsters.Add(new MonsterCellModel
             {
                 Name = name,

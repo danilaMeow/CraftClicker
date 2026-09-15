@@ -1,0 +1,79 @@
+﻿[
+  {
+    "Name": "Камень",
+    "Category": "Шахта",
+    "Icon": "🪨",
+    "DefaultDurability": 3,
+    "IsRare": false
+  },
+  {
+    "Name": "Железо",
+    "Category": "Шахта",
+    "Icon": "⚙️",
+    "DefaultDurability": 5,
+    "IsRare": false
+  },
+  {
+    "Name": "Золотая Жила",
+    "Category": "Шахта",
+    "Icon": "✨",
+    "DefaultDurability": 10,
+    "IsRare": true
+  },
+  {
+    "Name": "Дерево",
+    "Category": "Лес",
+    "Icon": "🪵",
+    "DefaultDurability": 4,
+    "IsRare": false
+  },
+  {
+    "Name": "Вековое Дерево",
+    "Category": "Лес",
+    "Icon": "🌳",
+    "DefaultDurability": 8,
+    "IsRare": true
+  },
+  {
+    "Name": "Пшеница",
+    "Category": "Поле",
+    "Icon": "🌾",
+    "DefaultDurability": 2,
+    "IsRare": false
+  },
+  {
+    "Name": "Золотая Пшеница",
+    "Category": "Поле",
+    "Icon": "⭐",
+    "DefaultDurability": 6,
+    "IsRare": true
+  },
+  {
+    "Name": "Слайм",
+    "Category": "Монстры",
+    "Icon": "🟢",
+    "DefaultDurability": 8,
+    "IsRare": false
+  },
+  {
+    "Name": "Гоблин",
+    "Category": "Монстры",
+    "Icon": "👺",
+    "DefaultDurability": 12,
+    "IsRare": false
+  },
+  {
+    "Name": "Скелет",
+    "Category": "Монстры",
+    "Icon": "💀",
+    "DefaultDurability": 10,
+    "IsRare": false
+  },
+  {
+    "Name": "Орк",
+    "Category": "Монстры",
+    "Icon": "👹",
+    "DefaultDurability": 16,
+    "IsRare": false
+  }
+]

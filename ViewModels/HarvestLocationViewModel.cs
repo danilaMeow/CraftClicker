@@ -2,12 +2,16 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MyApp.Helpers;
 using MyApp.Models;
+using MyApp.Services;
 
 namespace MyApp.ViewModels;
 
 public partial class HarvestLocationViewModel : ObservableObject
 {
+    private readonly InventoryService _inventory;
+
     [ObservableProperty]
     private ObservableCollection<ResourceCellModel> _cells = new();
 
@@ -27,11 +31,12 @@ public partial class HarvestLocationViewModel : ObservableObject
     private readonly string _rareResource;
     private readonly Random _random = new();
 
-    public HarvestLocationViewModel(string title, string defaultResource, string rareResource)
+    public HarvestLocationViewModel(string title, string defaultResource, string rareResource, InventoryService inventory)
     {
         Title = title;
         _defaultResource = defaultResource;
         _rareResource = rareResource;
+        _inventory = inventory;
         GenerateGrid();
     }
 
@@ -40,14 +45,15 @@ public partial class HarvestLocationViewModel : ObservableObject
     {
         if (cell == null || cell.IsMined) return;
 
-        int toolDamage = 1; // В будущем профильный урон от Топора/Лопаты
-        cell.Hit(toolDamage);
+        cell.Hit(1);
 
         if (cell.IsMined)
         {
             MinedCount++;
-            CheckResetCondition();
+            var (category, icon) = ResourceHelper.GetResourceDetails(cell.Name);
+            _inventory.AddItem(cell.Name, 1, category, icon);
 
+            CheckResetCondition();
             if (_minedCount >= 9) ResetGrid();
         }
     }
@@ -68,12 +74,18 @@ public partial class HarvestLocationViewModel : ObservableObject
 
         for (int i = 0; i < 9; i++)
         {
-            bool isRare = _random.Next(100) < 15;
+            bool isRareRoll = _random.Next(100) < 15;
+            string resourceName = isRareRoll ? _rareResource : _defaultResource;
+
+            var config = ResourceHelper.GetConfig(resourceName);
+            int hp = config?.DefaultDurability ?? 4;
+            bool isRare = config?.IsRare ?? false;
+
             _cells.Add(new ResourceCellModel
             {
-                Name = isRare ? _rareResource : _defaultResource,
-                MaxDurability = isRare ? 8 : 4,
-                CurrentDurability = isRare ? 8 : 4,
+                Name = resourceName,
+                MaxDurability = hp,
+                CurrentDurability = hp,
                 IsGoldenNode = isRare,
                 IsMined = false
             });
