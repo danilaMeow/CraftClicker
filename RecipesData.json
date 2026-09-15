@@ -1,0 +1,46 @@
+﻿[
+  {
+    "ResultName": "Каменная кирка",
+    "ResultCategory": "Шахта",
+    "ResultIcon": "⛏️",
+    "ResultCount": 1,
+    "Ingredients": [
+      {
+        "Name": "Дерево",
+        "Count": 3
+      },
+      {
+        "Name": "Камень",
+        "Count": 5
+      }
+    ]
+  },
+  {
+    "ResultName": "Железный меч",
+    "ResultCategory": "Монстры",
+    "ResultIcon": "🗡️",
+    "ResultCount": 1,
+    "Ingredients": [
+      {
+        "Name": "Дерево",
+        "Count": 2
+      },
+      {
+        "Name": "Железо",
+        "Count": 4
+      }
+    ]
+  },
+  {
+    "ResultName": "Хлеб",
+    "ResultCategory": "Поле",
+    "ResultIcon": "🍞",
+    "ResultCount": 2,
+    "Ingredients": [
+      {
+        "Name": "Пшеница",
+        "Count": 3
+      }
+    ]
+  }
+]

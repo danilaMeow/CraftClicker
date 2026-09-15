@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="MyApp.Views.CraftView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="600">
+    <Grid Margin="15">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Список рецептов -->
+        <Border Grid.Column="0" Background="#252526" CornerRadius="4" Padding="10">
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" Text="📜 РЕЦЕПТЫ" Foreground="White" FontWeight="Bold" Margin="0,0,0,10" HorizontalAlignment="Center"/>
+                <ListBox ItemsSource="{Binding Recipes}" SelectedItem="{Binding SelectedRecipe}" Background="#1E1E1E" BorderThickness="0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="4">
+                                <TextBlock Text="{Binding ResultIcon}" FontSize="16" Margin="0,0,8,0"/>
+                                <TextBlock Text="{Binding ResultName}" Foreground="White" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+        </Border>
+
+        <!-- Детали рецепта и крафт -->
+        <Border Grid.Column="1" Background="#252526" CornerRadius="4" Margin="15,0,0,0" Padding="15">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="{Binding SelectedRecipe.ResultName, FallbackValue='Выберите рецепт'}" 
+                           Foreground="White" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center"/>
+
+                <!-- Ингредиенты -->
+                <StackPanel Grid.Row="1" Margin="0,20,0,0">
+                    <TextBlock Text="Требуемые ресурсы:" Foreground="#AAAAAA" Margin="0,0,0,10"/>
+                    <ItemsControl ItemsSource="{Binding SelectedRecipe.Ingredients}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Margin="0,3">
+                                    <TextBlock Text="• " Foreground="White"/>
+                                    <TextBlock Text="{Binding Name}" Foreground="White"/>
+                                    <TextBlock Text="{Binding Count, StringFormat=': {0} шт'}" Foreground="#FFCC00" FontWeight="Bold"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+
+                <TextBlock Grid.Row="2" Text="{Binding StatusText}" Foreground="#007ACC" HorizontalAlignment="Center" Margin="0,10"/>
+
+                <Button Grid.Row="3" Content="🔨 Скрафтить" Command="{Binding CraftCommand}" 
+                        Height="40" Background="#3E3E42" Foreground="White" FontWeight="Bold" Cursor="Hand"/>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

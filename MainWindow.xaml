@@ -56,7 +56,16 @@
             <DockPanel Margin="10">
                 <TextBlock DockPanel.Dock="Top" Text="🎒 Инвентарь" Foreground="White" FontWeight="Bold" FontSize="14" Margin="0,0,0,10"/>
 
-                <ListBox ItemsSource="{Binding Inventory.Items}" Background="#1E1E1E" BorderThickness="0" Margin="0,5,0,0">
+                <!-- Вкладки категорий -->
+                <UniformGrid DockPanel.Dock="Top" Columns="4" Margin="0,0,0,10">
+                    <Button Content="⛏️" Command="{Binding Inventory.SelectCategoryCommand}" CommandParameter="Шахта" ToolTip="Шахта" Height="28" Margin="1"/>
+                    <Button Content="🪓" Command="{Binding Inventory.SelectCategoryCommand}" CommandParameter="Лес" ToolTip="Лес" Height="28" Margin="1"/>
+                    <Button Content="🌾" Command="{Binding Inventory.SelectCategoryCommand}" CommandParameter="Поле" ToolTip="Поле" Height="28" Margin="1"/>
+                    <Button Content="⚔️" Command="{Binding Inventory.SelectCategoryCommand}" CommandParameter="Монстры" ToolTip="Монстры" Height="28" Margin="1"/>
+                </UniformGrid>
+
+                <!-- Отфильтрованный список предметов -->
+                <ListBox ItemsSource="{Binding Inventory.FilteredItems}" Background="#1E1E1E" BorderThickness="0">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="2,4">

@@ -13,6 +13,9 @@
     <None Update="ResourcesData.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+	<None Update="RecipesData.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
