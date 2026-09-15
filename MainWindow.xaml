@@ -3,10 +3,62 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MyApp"
+        xmlns:views="clr-namespace:MyApp.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="CraftClicker" Height="600" Width="950"
+        Background="#1E1E1E"
+        KeyDown="Window_KeyDown">
 
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <!-- Левая колонка: Навигация -->
+            <ColumnDefinition Width="180"/>
+            <!-- Центральная колонка: Рабочая область -->
+            <ColumnDefinition Width="*"/>
+            <!-- Правая колонка: Инвентарь -->
+            <ColumnDefinition Width="220"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Меню локаций -->
+        <Border Grid.Column="0" Background="#252526" BorderBrush="#3F3F46" BorderThickness="0,0,1,0">
+            <StackPanel Margin="10">
+                <TextBlock Text="CRAFT CLICKER" Foreground="White" FontWeight="Bold" FontSize="14" Margin="0,0,0,15" HorizontalAlignment="Center"/>
+
+                <Button Content="⛏️ Шахта" Margin="0,3" Height="32"/>
+                <Button Content="🪓 Лес" Margin="0,3" Height="32"/>
+                <Button Content="🌾 Поле" Margin="0,3" Height="32"/>
+                <Button Content="⚔️ Монстры" Margin="0,3" Height="32"/>
+                <Button Content="🌱 Огород" Margin="0,3" Height="32"/>
+                <Separator Margin="0,10" Background="#3F3F46"/>
+                <Button Content="🔨 Крафт" Margin="0,3" Height="32"/>
+                <Button Content="🔥 Печь" Margin="0,3" Height="32"/>
+                <Button Content="🧪 Алхимия" Margin="0,3" Height="32"/>
+                <Button Content="⚖️ Рынок" Margin="0,3" Height="32"/>
+                <Button Content="🏛️ Алтарь" Margin="0,3" Height="32"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Активное окно: отображает нашу Шахту -->
+        <Grid Grid.Column="1" Margin="15">
+            <views:MineView DataContext="{Binding MineVM}"/>
+        </Grid>
+
+        <!-- Быстрый инвентарь справа -->
+        <Border Grid.Column="2" Background="#252526" BorderBrush="#3F3F46" BorderThickness="1,0,0,0">
+            <DockPanel Margin="10">
+                <TextBlock DockPanel.Dock="Top" Text="Инвентарь" Foreground="White" FontWeight="Bold" FontSize="14" Margin="0,0,0,10"/>
+                <TabControl Background="Transparent" BorderThickness="0">
+                    <TabItem Header="Шахта">
+                        <ListBox Background="#1E1E1E" BorderThickness="0" Margin="0,5,0,0"/>
+                    </TabItem>
+                    <TabItem Header="Лес">
+                        <ListBox Background="#1E1E1E" BorderThickness="0" Margin="0,5,0,0"/>
+                    </TabItem>
+                    <TabItem Header="Поле">
+                        <ListBox Background="#1E1E1E" BorderThickness="0" Margin="0,5,0,0"/>
+                    </TabItem>
+                </TabControl>
+            </DockPanel>
+        </Border>
     </Grid>
 </Window>

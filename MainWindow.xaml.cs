@@ -8,16 +8,28 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MyApp.ViewModels;
 
 namespace MyApp;
 
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
 public partial class MainWindow : Window
 {
+    public MineViewModel MineVM { get; } = new MineViewModel();
+
     public MainWindow()
     {
         InitializeComponent();
+        DataContext = this;
+    }
+
+    private void Window_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.R)
+        {
+            if (MineVM.ResetGridCommand.CanExecute(null))
+            {
+                MineVM.ResetGridCommand.Execute(null);
+            }
+        }
     }
 }
