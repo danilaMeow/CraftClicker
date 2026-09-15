@@ -15,6 +15,7 @@ public partial class MainViewModel : ObservableObject
     public HarvestLocationViewModel ForestVM { get; }
     public HarvestLocationViewModel FieldVM { get; }
     public MonstersViewModel MonstersVM { get; }
+    public CraftViewModel CraftVM { get; }
 
     public MainViewModel()
     {
@@ -22,6 +23,7 @@ public partial class MainViewModel : ObservableObject
         ForestVM = new HarvestLocationViewModel("🪓 ЛЕС", "Дерево", "Вековое Дерево", Inventory);
         FieldVM = new HarvestLocationViewModel("🌾 ПОЛЕ", "Пшеница", "Золотая Пшеница", Inventory);
         MonstersVM = new MonstersViewModel(Inventory);
+        CraftVM = new CraftViewModel(Inventory);
 
         CurrentView = MineVM;
     }
@@ -35,6 +37,7 @@ public partial class MainViewModel : ObservableObject
             "Forest" => ForestVM,
             "Field" => FieldVM,
             "Monsters" => MonstersVM,
+            "Craft" => CraftVM,
             _ => CurrentView
         };
     }

@@ -22,6 +22,13 @@ public partial class InventoryService : ObservableObject
         UpdateFilter();
     }
 
+    [RelayCommand]
+    private void SelectCategory(string category)
+    {
+        SelectedCategory = category;
+        UpdateFilter();
+    }
+
     public void AddItem(string name, int amount, string category, string icon = "📦")
     {
         var existing = Items.FirstOrDefault(i => i.Name == name);
@@ -37,15 +44,15 @@ public partial class InventoryService : ObservableObject
         UpdateFilter();
     }
 
-    [RelayCommand]
-    private void SelectCategory(string category)
+    public void UpdateFilter()
     {
-        SelectedCategory = category;
-        UpdateFilter();
-    }
+        // Удаляем из общего списка предметы, которых осталось 0
+        var emptyItems = Items.Where(i => i.Count <= 0).ToList();
+        foreach (var item in emptyItems)
+        {
+            Items.Remove(item);
+        }
 
-    private void UpdateFilter()
-    {
         FilteredItems.Clear();
         var matchingItems = Items.Where(i => i.Category == SelectedCategory);
         foreach (var item in matchingItems)
@@ -53,4 +60,6 @@ public partial class InventoryService : ObservableObject
             FilteredItems.Add(item);
         }
     }
+
+
 }

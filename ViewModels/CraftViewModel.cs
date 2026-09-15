@@ -49,7 +49,7 @@ public partial class CraftViewModel : ObservableObject
     {
         if (SelectedRecipe == null) return;
 
-        // Проверяем наличие всех ингредиентов
+        // Проверяем наличие ингредиентов
         foreach (var ing in SelectedRecipe.Ingredients)
         {
             var invItem = _inventory.Items.FirstOrDefault(i => i.Name == ing.Name);
@@ -67,7 +67,7 @@ public partial class CraftViewModel : ObservableObject
             invItem.Count -= ing.Count;
         }
 
-        // Добавляем результат
+        // Добавляем скрафченный предмет
         _inventory.AddItem(
             SelectedRecipe.ResultName,
             SelectedRecipe.ResultCount,
